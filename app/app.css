@@ -1,0 +1,204 @@
+@import 'tailwindcss';
+
+/* ---------- Tokens ---------- */
+:root {
+  color-scheme: light;
+  --paper: #eef2ec;
+  --surface: #e3eadf;
+  --ink: #17251d;
+  --moss: #2e6a4c;
+  --muted: #5d6d63;
+  --line: #c6d1c3;
+  --signal: #6b4eff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #13201a;
+    --surface: #1b2b23;
+    --ink: #e4ece4;
+    --moss: #8cc9a6;
+    --muted: #9db0a4;
+    --line: #2c3f34;
+    --signal: #a996ff;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-moss: var(--moss);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-signal: var(--signal);
+  --font-display: 'Unbounded', 'Zen Kaku Gothic New', system-ui, sans-serif;
+  --font-sans: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP',
+    system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 1.5rem;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'palt';
+    line-height: 1.8;
+  }
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------- Wordmark ---------- */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.86;
+}
+.wordmark-hero {
+  /* 画面幅いっぱいに名前を置く。2行目を右にずらして植物の伸びるリズムを作る */
+  font-size: clamp(3.5rem, 15.5vw, 13.5rem);
+}
+.wordmark-hero span {
+  display: block;
+}
+.wordmark-hero span + span {
+  padding-left: 0.62em;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wordmark-hero span {
+    animation: sprout 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .wordmark-hero span + span {
+    animation-delay: 0.12s;
+  }
+}
+@keyframes sprout {
+  from {
+    opacity: 0;
+    transform: translateY(0.18em);
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ---------- Article body (microCMS rich editor HTML) ---------- */
+.article {
+  font-size: 1.0625rem;
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
+.article > * + * {
+  margin-top: 1.25em;
+}
+.article h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-top: 2.6em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--line);
+}
+.article h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.6;
+  margin-top: 2em;
+}
+.article h2 + *,
+.article h3 + * {
+  margin-top: 0.8em;
+}
+.article a {
+  color: var(--moss);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.article a:hover {
+  text-decoration-thickness: 2px;
+}
+.article ul {
+  list-style: disc;
+  padding-left: 1.5em;
+}
+.article ol {
+  list-style: decimal;
+  padding-left: 1.75em;
+}
+.article li + li {
+  margin-top: 0.3em;
+}
+.article strong {
+  font-weight: 700;
+}
+.article blockquote {
+  border-left: 3px solid var(--moss);
+  padding-left: 1em;
+  color: var(--muted);
+}
+.article img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.article figure figcaption {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.4em;
+}
+.article :not(pre) > code {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--surface);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.article pre {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  background: #1d2a23;
+  color: #e9f0ea;
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+.article table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.article th,
+.article td {
+  border: 1px solid var(--line);
+  padding: 0.4em 0.8em;
+}
+.article hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 2.5em 0;
+}
+.article iframe {
+  max-width: 100%;
+}

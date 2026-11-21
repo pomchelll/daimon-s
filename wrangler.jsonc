@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "daimon-s",
+  "main": "./workers/app.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "upload_source_maps": true,
+  // 取得したドメインをこのWorkerに紐づける（ドメインがCloudflareアカウントにある必要あり）
+  "routes": [
+    { "pattern": "daimon-s.party", "custom_domain": true },
+    { "pattern": "www.daimon-s.party", "custom_domain": true }
+  ]
+  // MICROCMS_SERVICE_DOMAIN / MICROCMS_API_KEY / GA_TRACKING_ID は
+  // ダッシュボードの「Variables and Secrets」か `npx wrangler secret put` で登録する
+}
