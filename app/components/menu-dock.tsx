@@ -1,10 +1,10 @@
 import { Link } from 'react-router'
-import { CATEGORIES } from '~/site'
+import { SECTIONS } from '~/site'
 import { Icon, type IconName } from './icons'
 
 const ITEMS: { to: string; label: string; icon: IconName }[] = [
-  { to: '/', label: 'すべての記事', icon: 'all' },
-  ...CATEGORIES.map((c) => ({ to: `/${c.slug}`, label: c.name, icon: c.slug as IconName })),
+  { to: '/', label: 'すべて', icon: 'all' },
+  ...SECTIONS.map((s) => ({ to: `/${s.slug}`, label: s.name, icon: s.slug })),
   { to: '/about', label: 'プロフィール', icon: 'profile' },
 ]
 

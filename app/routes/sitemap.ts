@@ -1,5 +1,6 @@
 import { cms } from '~/lib/microcms.server'
-import { CATEGORIES, SITE } from '~/site'
+import { SECTIONS, SITE } from '~/site'
+import { WORKS } from '~/works'
 
 import type { Route } from './+types/sitemap'
 
@@ -8,7 +9,8 @@ export async function loader({ context }: Route.LoaderArgs) {
   const urls = [
     `<url><loc>${SITE.url}/</loc></url>`,
     `<url><loc>${SITE.url}/about</loc></url>`,
-    ...CATEGORIES.map((c) => `<url><loc>${SITE.url}/${c.slug}</loc></url>`),
+    ...SECTIONS.map((s) => `<url><loc>${SITE.url}/${s.slug}</loc></url>`),
+    ...WORKS.map((w) => `<url><loc>${SITE.url}/${w.section}/${w.id}</loc></url>`),
     ...posts.map(
       (p) =>
         `<url><loc>${SITE.url}/${p.category.slug}/${p.id}</loc><lastmod>${p.revisedAt}</lastmod></url>`,

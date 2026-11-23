@@ -6,7 +6,7 @@ import avatar from '~/image/daimon-avatar.webp'
 import { buildToc, formatDate } from '~/lib/format'
 import { CACHE_HEADERS, pageMeta } from '~/lib/meta'
 import { cms } from '~/lib/microcms.server'
-import { SITE, findCategory } from '~/site'
+import { SITE, findBlogCategory } from '~/site'
 
 import type { Route } from './+types/article'
 
@@ -41,21 +41,21 @@ export const meta: Route.MetaFunction = ({ data }) => {
 
 export default function ArticlePage({ loaderData }: Route.ComponentProps) {
   const { post, html, toc } = loaderData
-  const cat = findCategory(post.category.slug)
+  const cat = findBlogCategory(post.category.slug)
   const published = formatDate(post.publishedAt)
   const revised = formatDate(post.revisedAt)
 
   return (
     <div className='hs-screen'>
-      <TopBar back={{ to: `/${post.category.slug}`, label: 'ホーム' }} />
+      <TopBar back={{ to: '/blog', label: 'ホーム' }} />
 
       <main className='mx-auto w-full max-w-6xl flex-1 px-[var(--gutter)] pt-[var(--space-6)] pb-[var(--space-6)]'>
         <header className='grid items-center gap-[var(--space-5)] md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]'>
-          <Cover image={post.eyecatch} color={cat?.tiles[0] ?? 'ink'} caption={cat?.name} />
+          <Cover image={post.eyecatch} color={cat?.color ?? 'ink'} caption='ブログ' />
           <div>
             <div className='flex flex-wrap gap-[var(--space-2)]'>
-              <Link to={`/${post.category.slug}`} className='hs-chip' prefetch='intent'>
-                {cat?.name ?? post.category.name}
+              <Link to='/blog' className='hs-chip' prefetch='intent'>
+                ブログ
               </Link>
               <span className='hs-chip'>
                 <time dateTime={post.publishedAt}>{published}</time>

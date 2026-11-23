@@ -7,16 +7,19 @@ export function Cover({
   color,
   caption,
   square = false,
+  raw = false,
 }: {
   image?: { url: string; width?: number; height?: number }
   color: string
   caption?: string
   square?: boolean
+  /** true なら microCMS のリサイズ指定を付けない（public/ の画像用） */
+  raw?: boolean
 }) {
   if (image) {
     return (
       <div className={`hs-cover ${square ? 'hs-cover--square' : ''} bg-[var(--surface-raised)]`}>
-        <img src={imgUrl(image.url, 1200)} alt='' width={image.width} height={image.height} />
+        <img src={raw ? image.url : imgUrl(image.url, 1200)} alt='' width={image.width} height={image.height} />
       </div>
     )
   }

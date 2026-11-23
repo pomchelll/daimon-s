@@ -1,23 +1,25 @@
 import { MenuDock } from './menu-dock'
 import { HintBar, TopBar } from './screen'
-import { Shelf, ShelfHints } from './shelf'
-import type { BlogSummary } from '~/types'
+import { Shelf } from './shelf'
+import type { ShelfItem } from '~/types'
 
 /** ホーム画面の骨格：TopBar → 選択タイトル → Shelf → MenuDock → HintBar */
 export function ShelfScreen({
   heading,
   active,
-  posts,
+  items,
   offset,
   prev,
   next,
+  empty,
 }: {
   heading: string
   active: string
-  posts: BlogSummary[]
+  items: ShelfItem[]
   offset: number
   prev?: string
   next?: string
+  empty: string
 }) {
   return (
     <div className='hs-screen'>
@@ -25,12 +27,12 @@ export function ShelfScreen({
       <h1 className='sr-only'>{heading}</h1>
       <main className='flex flex-1 flex-col justify-center gap-[var(--space-4)] py-[var(--space-6)]'>
         {/* 棚を切り替えたら選択を先頭に戻す */}
-        <Shelf key={`${active}-${offset}`} posts={posts} offset={offset} prev={prev} next={next} />
+        <Shelf key={`${active}-${offset}`} items={items} offset={offset} prev={prev} next={next} empty={empty} />
       </main>
       <div className='pb-[var(--space-4)]'>
         <MenuDock active={active} />
       </div>
-      <HintBar>{posts.length > 0 && <ShelfHints />}</HintBar>
+      <HintBar />
     </div>
   )
 }

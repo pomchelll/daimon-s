@@ -26,18 +26,14 @@ export function cms(env: Env) {
   })
 
   return {
-    async listBlogs(opts: { page?: number; limit: number; categoryId?: string }) {
-      const page = Math.max(1, opts.page ?? 1)
+    async listBlogs(opts: { offset: number; limit: number }) {
       return client.getList<BlogSummary>({
         endpoint: 'blogs',
         queries: {
           orders: '-publishedAt',
           limit: opts.limit,
-          offset: (page - 1) * opts.limit,
+          offset: Math.max(0, opts.offset),
           fields: LIST_FIELDS,
-          filters: opts.categoryId
-            ? `category[equals]${opts.categoryId}`
-            : undefined,
         },
       })
     },

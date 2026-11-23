@@ -3,7 +3,7 @@ import { MenuDock } from '~/components/menu-dock'
 import { HintBar, TopBar } from '~/components/screen'
 import avatar from '~/image/daimon-avatar.webp'
 import { pageMeta } from '~/lib/meta'
-import { CATEGORIES, SITE } from '~/site'
+import { SECTIONS, SITE } from '~/site'
 
 import type { Route } from './+types/about'
 
@@ -26,7 +26,7 @@ export default function About() {
             人間界のエイリアン植物こと、ダイモンです。部屋で育てている植物たち（ダイモンジャングル）のことや、仕事で学んだこと、日々のあれこれを書いています。
           </p>
           <ul className='mt-[var(--space-4)] flex flex-wrap gap-[var(--space-2)]'>
-            {CATEGORIES.map((c) => (
+            {SECTIONS.map((c) => (
               <li key={c.slug}>
                 <Link to={`/${c.slug}`} className='hs-chip' prefetch='intent'>
                   {c.name}

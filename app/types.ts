@@ -20,3 +20,14 @@ export type Blog = MicroCMSListContent & {
 }
 
 export type BlogSummary = Omit<Blog, 'content'>
+
+/** 棚に並べる1冊（ブログ記事・プロダクト・プロジェクト共通） */
+export type ShelfItem = {
+  key: string
+  href: string
+  title: string
+  date: string
+  label: string
+  color: string
+  image?: string
+}

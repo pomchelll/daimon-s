@@ -9,7 +9,7 @@ export const meta: Route.MetaFunction = () => pageMeta({ path: '/' })
 export const headers = () => CACHE_HEADERS
 
 export async function loader({ context, request }: Route.LoaderArgs) {
-  return loadShelf(context.cloudflare.env, request)
+  return loadShelf(context.cloudflare.env, request, { withWorks: true })
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
@@ -17,6 +17,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     <ShelfScreen
       heading={`${SITE.name}｜ダイモン シュウの個人サイト`}
       active='/'
+      empty='まだ何も並んでいません。'
       {...loaderData}
     />
   )
