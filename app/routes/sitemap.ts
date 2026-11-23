@@ -7,6 +7,7 @@ export async function loader({ context }: Route.LoaderArgs) {
   const posts = await cms(context.cloudflare.env).allBlogsForSitemap()
   const urls = [
     `<url><loc>${SITE.url}/</loc></url>`,
+    `<url><loc>${SITE.url}/about</loc></url>`,
     ...CATEGORIES.map((c) => `<url><loc>${SITE.url}/${c.slug}</loc></url>`),
     ...posts.map(
       (p) =>

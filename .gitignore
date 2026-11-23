@@ -1,0 +1,11 @@
+node_modules
+
+/.cache
+/build
+.env
+.dev.vars
+
+.wrangler
+/.react-router
+.env*
+!.dev.vars.example

@@ -1,10 +1,12 @@
 import { Link, redirect } from 'react-router'
-import { Profile } from '~/components/profile'
+import { Cover } from '~/components/cover'
+import { HintBar, TopBar } from '~/components/screen'
 import { Toc } from '~/components/toc'
-import { buildToc, formatDate, imgUrl } from '~/lib/format'
+import avatar from '~/image/daimon-avatar.webp'
+import { buildToc, formatDate } from '~/lib/format'
 import { CACHE_HEADERS, pageMeta } from '~/lib/meta'
 import { cms } from '~/lib/microcms.server'
-import { findCategory } from '~/site'
+import { SITE, findCategory } from '~/site'
 
 import type { Route } from './+types/article'
 
@@ -44,67 +46,79 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
   const revised = formatDate(post.revisedAt)
 
   return (
-    <article className='mx-auto max-w-6xl px-5 pt-12 sm:px-8 sm:pt-16'>
-      <header className='max-w-3xl'>
-        <Link to={`/${post.category.slug}`} className='text-sm font-bold text-moss underline-offset-4 hover:underline'>
-          {cat?.name ?? post.category.name}
-        </Link>
-        <h1 className='mt-3 text-3xl leading-snug font-bold sm:text-4xl'>{post.title}</h1>
-        <p className='mt-4 flex flex-wrap gap-x-4 text-sm text-muted'>
-          <span>
-            <time dateTime={post.publishedAt}>{published}</time> 公開
-          </span>
-          {revised && revised !== published && (
-            <span>
-              <time dateTime={post.revisedAt}>{revised}</time> 更新
-            </span>
-          )}
-        </p>
-        {post.tags && post.tags.length > 0 && (
-          <ul className='mt-2 flex flex-wrap gap-x-3 text-sm text-muted'>
-            {post.tags.map((t) => (
-              <li key={t.id}>#{t.name}</li>
-            ))}
-          </ul>
-        )}
-      </header>
+    <div className='hs-screen'>
+      <TopBar back={{ to: `/${post.category.slug}`, label: 'ホーム' }} />
 
-      {post.eyecatch && (
-        <img
-          src={imgUrl(post.eyecatch.url, 1600)}
-          alt=''
-          width={post.eyecatch.width}
-          height={post.eyecatch.height}
-          className='mt-10 aspect-[1200/630] w-full max-w-4xl rounded-md bg-surface object-cover'
-        />
-      )}
-
-      <div className='mt-10 grid gap-12 lg:grid-cols-[minmax(0,42rem)_15rem] lg:justify-between'>
-        <div className='min-w-0'>
-          {toc.length > 0 && (
-            <details className='mb-10 rounded-md border border-line px-4 py-3 lg:hidden'>
-              <summary className='cursor-pointer font-bold'>目次</summary>
-              <div className='mt-3'>
-                <Toc items={toc} />
-              </div>
-            </details>
-          )}
-          <div className='article' dangerouslySetInnerHTML={{ __html: html }} />
-
-          <aside className='mt-16 border-t border-line pt-8' aria-label='書いた人'>
-            <Profile compact />
-          </aside>
-        </div>
-
-        {toc.length > 0 && (
-          <aside className='hidden lg:block' aria-label='目次'>
-            <div className='sticky top-8'>
-              <p className='mb-3 text-sm font-bold text-muted'>目次</p>
-              <Toc items={toc} trackActive />
+      <main className='mx-auto w-full max-w-6xl flex-1 px-[var(--gutter)] pt-[var(--space-6)] pb-[var(--space-6)]'>
+        <header className='grid items-center gap-[var(--space-5)] md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]'>
+          <Cover image={post.eyecatch} color={cat?.tiles[0] ?? 'ink'} caption={cat?.name} />
+          <div>
+            <div className='flex flex-wrap gap-[var(--space-2)]'>
+              <Link to={`/${post.category.slug}`} className='hs-chip' prefetch='intent'>
+                {cat?.name ?? post.category.name}
+              </Link>
+              <span className='hs-chip'>
+                <time dateTime={post.publishedAt}>{published}</time>
+              </span>
+              {revised && revised !== published && (
+                <span className='hs-chip text-[var(--ink-muted)]'>
+                  <time dateTime={post.revisedAt}>{revised}</time> 更新
+                </span>
+              )}
             </div>
-          </aside>
-        )}
-      </div>
-    </article>
+            <h1 className='t-display mt-[var(--space-4)] text-[26px] sm:text-[34px]'>{post.title}</h1>
+            {post.description && (
+              <p className='t-body mt-[var(--space-3)] text-[var(--ink-muted)]'>{post.description}</p>
+            )}
+            {post.tags && post.tags.length > 0 && (
+              <ul className='mt-[var(--space-3)] flex flex-wrap gap-x-3 t-label text-[var(--ink-muted)]'>
+                {post.tags.map((t) => (
+                  <li key={t.id}>#{t.name}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </header>
+
+        <div className='mt-[var(--space-6)] grid gap-[var(--space-5)] lg:grid-cols-[minmax(0,42rem)_14rem] lg:justify-between'>
+          <div className='min-w-0'>
+            {toc.length > 0 && (
+              <details className='mb-[var(--space-5)] rounded-[var(--radius-tile)] bg-[var(--surface-raised)] px-[var(--space-4)] py-[var(--space-3)] lg:hidden'>
+                <summary className='t-label cursor-pointer'>もくじ</summary>
+                <div className='mt-[var(--space-3)]'>
+                  <Toc items={toc} />
+                </div>
+              </details>
+            )}
+            <div className='article' dangerouslySetInnerHTML={{ __html: html }} />
+
+            <aside
+              className='mt-[var(--space-6)] flex flex-wrap items-center gap-[var(--space-3)] rounded-[var(--radius-cover)] bg-[var(--surface-raised)] p-[var(--space-4)]'
+              aria-label='書いた人'
+            >
+              <img src={avatar} alt='' width={56} height={56} className='rounded-full' />
+              <div className='min-w-0 flex-1'>
+                <p className='t-title'>{SITE.author}</p>
+                <p className='t-label font-medium text-[var(--ink-muted)]'>人間界のエイリアン植物</p>
+              </div>
+              <Link to='/about' className='hs-btn hs-btn--primary' prefetch='intent'>
+                プロフィール
+              </Link>
+            </aside>
+          </div>
+
+          {toc.length > 0 && (
+            <aside className='hidden lg:block' aria-label='もくじ'>
+              <div className='sticky top-8'>
+                <p className='t-caption mb-[var(--space-3)] text-[var(--ink-muted)]'>もくじ</p>
+                <Toc items={toc} trackActive />
+              </div>
+            </aside>
+          )}
+        </div>
+      </main>
+
+      <HintBar />
+    </div>
   )
 }

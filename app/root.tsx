@@ -13,8 +13,7 @@ import {
 
 import type { Route } from './+types/root'
 import './app.css'
-import { SiteFooter } from './components/site-footer'
-import { SiteHeader } from './components/site-header'
+import { HintBar, TopBar } from './components/screen'
 
 export const links: Route.LinksFunction = () => [
   { rel: 'icon', href: '/favicon.ico' },
@@ -22,7 +21,7 @@ export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
   {
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap',
+    href: 'https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap',
   },
 ]
 
@@ -66,10 +65,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </>
         )}
       </head>
-      <body className='flex min-h-dvh flex-col'>
-        <SiteHeader />
-        <main className='flex-1'>{children}</main>
-        <SiteFooter />
+      <body>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -87,22 +84,30 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   if (import.meta.env.DEV && error instanceof Error) detail = error.message
 
   return (
-    <div className='mx-auto max-w-3xl px-5 py-20 sm:px-8'>
-      <p className='wordmark text-6xl text-moss sm:text-8xl'>{notFound ? '404' : 'Error'}</p>
-      <h1 className='mt-8 text-xl font-bold'>
-        {notFound ? 'ページが見つかりません' : 'ページを表示できませんでした'}
-      </h1>
-      <p className='mt-3 text-muted'>
-        {notFound
-          ? 'URLが変わったか、記事が削除された可能性があります。'
-          : '時間をおいて再読み込みしてください。'}
-      </p>
-      {detail && (
-        <pre className='mt-6 overflow-x-auto rounded bg-surface p-4 text-sm'>{detail}</pre>
-      )}
-      <Link to='/' className='mt-8 inline-block font-bold text-moss underline underline-offset-4'>
-        トップページへ戻る
-      </Link>
+    <div className='hs-screen'>
+      <TopBar back={{ to: '/', label: 'ホーム' }} />
+      <main className='mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-[var(--gutter)] py-[var(--space-6)]'>
+        <p className='t-caption text-[var(--ink-muted)]'>{notFound ? '404' : 'ERROR'}</p>
+        <h1 className='t-display mt-[var(--space-2)] text-[26px] sm:text-[34px]'>
+          {notFound ? 'ページが見つかりません' : 'ページをひらけませんでした'}
+        </h1>
+        <p className='t-body mt-[var(--space-3)] text-[var(--ink-muted)]'>
+          {notFound
+            ? 'URLが変わったか、記事が削除されたのかもしれません。'
+            : '時間をおいて、もう一度ひらいてみてください。'}
+        </p>
+        {detail && (
+          <pre className='mt-[var(--space-4)] overflow-x-auto rounded-[var(--radius-tile)] bg-[var(--surface-raised)] p-[var(--space-3)] text-sm'>
+            {detail}
+          </pre>
+        )}
+        <div className='mt-[var(--space-5)]'>
+          <Link to='/' className='hs-btn hs-btn--primary'>
+            ホームへもどる
+          </Link>
+        </div>
+      </main>
+      <HintBar />
     </div>
   )
 }

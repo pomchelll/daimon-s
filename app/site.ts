@@ -14,18 +14,21 @@ export const CATEGORIES = [
     name: '学びの記録',
     description: '仕事や日常で役立つTips',
     slug: 'learning',
+    tiles: ['blue'],
   },
   {
     id: 'ws9xx-twte',
     name: '植物手帖',
     description: 'ダイモンジャングルの植物を紹介',
     slug: 'plants',
+    tiles: ['green'],
   },
   {
     id: 'cgxkplli7x',
     name: '日々のあれこれ',
     description: '誰に向けるわけでもなく、日々のことを呟きます',
     slug: 'dairy',
+    tiles: ['orange'],
   },
 ] as const
 
@@ -34,4 +37,8 @@ export type CategoryDef = (typeof CATEGORIES)[number]
 export const findCategory = (slug: string | undefined) =>
   CATEGORIES.find((c) => c.slug === slug)
 
-export const PER_PAGE = 12
+/** 1つの棚に並べる記事数（超えたら「つづき」タイルで次ページへ） */
+export const PER_SHELF = 40
+
+/** 明るい地のタイル（文字は tile-on-light） */
+export const LIGHT_TILES = new Set(['orange', 'yellow', 'sand'])

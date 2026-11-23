@@ -21,13 +21,15 @@ export function Toc({ items, trackActive = false }: { items: TocItem[]; trackAct
   }, [items, trackActive])
 
   return (
-    <ol className='space-y-2 text-sm leading-snug'>
+    <ol className='space-y-2 text-[13px] leading-snug'>
       {items.map((item) => (
-        <li key={item.id} className={item.level === 3 ? 'pl-4' : ''}>
+        <li key={item.id} className={item.level === 3 ? 'pl-3' : ''}>
           <a
             href={`#${item.id}`}
-            className={`block border-l-2 pl-3 hover:text-moss ${
-              active === item.id ? 'border-signal font-bold text-ink' : 'border-transparent text-muted'
+            className={`block border-l-2 py-0.5 pl-3 hover:text-[var(--ink)] ${
+              active === item.id
+                ? 'border-[var(--ink)] font-bold text-[var(--ink)]'
+                : 'border-[var(--hairline)] text-[var(--ink-muted)]'
             }`}
           >
             {item.text}

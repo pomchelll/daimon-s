@@ -1,0 +1,5 @@
+# このファイルを .dev.vars にコピーして値を入れる（.dev.vars はGitに含めない）
+MICROCMS_SERVICE_DOMAIN=your-service-id
+MICROCMS_API_KEY=your-api-key
+# 任意：Google Analytics の測定ID（G-XXXXXXX）。空なら読み込まない
+GA_TRACKING_ID=
